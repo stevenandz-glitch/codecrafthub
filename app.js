@@ -25,6 +25,7 @@ import express from 'express';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 // Determine __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -40,6 +41,7 @@ const PORT = 5000;
 const app = express();
 
 // Middleware to parse JSON bodies
+app.use(cors())
 app.use(express.json());
 
 // Allowed statuses for validation
@@ -136,7 +138,7 @@ router.post('/courses', async (req, res) => {
     if (!VALID_STATUSES.includes(status)) {
       return res.status(400).json({
         error: `Invalid status value. Must be one of: ${VALID_STATUSES.join(', ')}`
-      });
+      });   
     }
 
     // Validate target_date format and calendar validity
